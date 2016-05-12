@@ -9,4 +9,6 @@ ADD_EXECUTABLE( Exercise3
   Force.cpp
   FourthOrderRungeKuttaIntegrator.cpp
   SecondOrderRungeKuttaIntegrator.cpp
+  Particle.cpp
+  Point.cpp
 )
