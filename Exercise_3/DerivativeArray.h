@@ -12,7 +12,9 @@
 class DerivativeArray
 {
 public:
-    DerivativeArray( const std::vector<Particle>& particle );
+	DerivativeArray();
+	DerivativeArray( const std::vector<Particle>& particle );
+	std::vector<Particle> entries;
 };
 
 // These operators are used to implement integration schemes such as

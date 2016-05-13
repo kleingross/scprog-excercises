@@ -12,7 +12,9 @@ class EulerIntegrator:
     public Integrator
 {
 public:
-    virtual std::vector<Particle>   update_particles( const std::vector<Particle>& particle, double time_step );
+	std::string integrator_type;
+	EulerIntegrator();
+    std::vector<Particle>   update_particles( const std::vector<Particle>& particle, double time_step );
 };
 
 
