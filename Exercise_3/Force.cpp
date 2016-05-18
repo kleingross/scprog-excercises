@@ -30,9 +30,9 @@ ComputeForce( const std::vector<Particle>& particle, size_t index )
 		//distance
 		double Lij = pi.distance_to(pj);
 		//direction
-		Point rij = (pi - pj) / Lij;
+		Point rij = (pj - pi) / Lij;
 		//force
-		Point force_ij = (ks * (Lij - L0) + kd * (((vi.x - vj.x) * rij.x) + ((vi.y - vj.y) * rij.y)) )* rij;
+		Point force_ij = (ks * (Lij - L0) + kd * (((vj.x - vi.x) * rij.x) + ((vj.y - vi.y) * rij.y) ) )* rij;
 		
 		//second force component only if not last particle
 		if (index < last_index)
@@ -41,9 +41,9 @@ ComputeForce( const std::vector<Particle>& particle, size_t index )
 			Point pk = particle[k].position;
 			Point vk = particle[k].velocity;
 			double Lik = pi.distance_to(pk);
-			Point rik = (pi - pk) / Lik;
-			Point force_ik = (ks * (Lik - L0) + kd * (((vi.x - vk.x) * rik.x) + ((vi.y - vk.y) * rik.y)))* rik;
-			force = (force_ij - force_ik);
+			Point rik = (pk - pi) / Lik;
+			Point force_ik = (ks * (Lik - L0) + kd * (((vk.x - vi.x) * rik.x) + ((vk.y - vi.y) * rik.y)))* rik;
+			force = (force_ij + force_ik);
 		}
 		//if last particle
 		else if (index = last_index) { force = force_ij;  }

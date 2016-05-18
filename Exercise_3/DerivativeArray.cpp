@@ -9,6 +9,7 @@ DerivativeArray::DerivativeArray()
 
 DerivativeArray::DerivativeArray( const std::vector<Particle>& particle )
 {
+	entries.clear();
 	//first particle
 	Particle first_entry; //initialized with zeros
 	entries.push_back(first_entry); //first particle cannot move
