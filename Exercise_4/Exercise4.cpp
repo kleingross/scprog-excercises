@@ -17,12 +17,12 @@
 #include <stdlib.h>
 
 
-// namespace for parmeters
+// namespace for parmeters, default to pendulum
 namespace parameters
 {
-	int steps_per_frame;
-	double time_step;
-	std::string input_file;
+	int steps_per_frame = 10;
+	double time_step = 0.01;
+	std::string input_file = "pendulum.txt";
 }
 
 // Create the Euler integrator, or the second order Runge-Kutta integrator, or the fourth order Runge-Kutta integrator
@@ -80,14 +80,14 @@ CreateEnvironment(int argc, char** argv)
 		if (environment_type == "pendulum")
 		{
 			static PendulumEnvironment pendulum_environment;
-			std::cout << "environment: " << "pendulum" << std::endl;
+			std::cout << "environment: " << environment_type << std::endl;
 			return &pendulum_environment;
 		}
 
 		else if (environment_type == "gravity") 
 		{
 			static GravityEnvironment gravity_environment;
-			std::cout << "environment: " << "gravity" << std::endl;
+			std::cout << "environment: " << environment_type << std::endl;
 			return &gravity_environment;
 		}
 
@@ -114,19 +114,26 @@ ReadParticles()
 	static std::vector<Particle> start_particles;
 
 	std::fstream input_file;
-	input_file.open( parameters::input_file );
+	input_file.open( parameters::input_file, std::ios::in );
 
 	//append properties to start_particles
 	if (input_file.is_open())
 	{
-		while( !input_file.eof())
+		while( !input_file.eof() )
 		{
 			Particle particle;
+
+			//read in properties of particle
 			input_file >> particle.position.x;
 			input_file >> particle.position.y;
 			input_file >> particle.velocity.x;
 			input_file >> particle.velocity.y;
 			input_file >> particle.mass;
+			
+			//if eof dont append to start particles
+			if (input_file.eof()) break;
+
+			//append read start_particle
 			start_particles.push_back(particle);
 		}
 	}
@@ -192,18 +199,20 @@ main( int argc, char** argv )
 	// set global variables
 	Integrator* integrator = CreateIntegrator( argc, argv );
 	Environment* environment = CreateEnvironment(argc, argv); 
-	
-	parameters::steps_per_frame = atoi(argv[3]);
+
+	if (argc > 3) parameters::steps_per_frame = atoi(argv[3]);
 	std::cout << "steps per frame: " << argv[3] << std::endl;
-	parameters::time_step = atof(argv[4]);
+	if (argc > 4) parameters::time_step = atof(argv[4]);
 	std::cout << "time step: " << argv[4] << std::endl;
-	parameters::input_file = argv[5];
+	if (argc > 5) parameters::input_file = argv[5];
 	std::cout << "input file: " << parameters::input_file << std::endl;
-	
+		
     if( integrator != 0 && environment != 0 )
     {
         std::vector<Particle> particle = ReadParticles();
         RunSimulation( particle, integrator, environment );
+
+		std::cout << "success" << std::endl;
 	}
     
     return 0;
