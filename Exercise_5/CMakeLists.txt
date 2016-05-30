@@ -3,6 +3,7 @@ PROJECT( Exercise5 )
 SET( CMAKE_BUILD_TYPE Debug )
 ADD_EXECUTABLE( Exercise5
 	Exercise5.cpp
+	SkipList.cpp
 )
 
 IF( MINGW OR UNIX )

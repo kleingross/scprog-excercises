@@ -5,12 +5,11 @@
 #include <functional>
 #include <utility>
 
-
 template < typename Key, typename T, typename Compare = std::less<Key> >
 class SkipList
 {
 public:
-    typedef std::pair<const Key,T> value_type;
+	typedef std::pair<const Key, T> value_type;
     
     class iterator;
     class const_iterator;
@@ -31,6 +30,16 @@ public:
     const_iterator              begin() const;
     iterator                    end();
     const_iterator              end() const;
+
+	//content
+	struct element
+	{
+		value_type content;
+		element* next;
+	};
+
+	element* head;
+	size_t length;
 };
 
 template <typename Key, typename T, typename Compare>
@@ -47,6 +56,8 @@ public:
             
     bool        operator == ( const iterator& rhs ) const;
     bool        operator != ( const iterator& rhs ) const;
+
+	element* iter;
 };
 
 template <typename Key, typename T, typename Compare>
@@ -63,6 +74,8 @@ public:
             
     bool                operator == ( const const_iterator& rhs ) const;
     bool                operator != ( const const_iterator& rhs ) const;
+
+	const element* iter;
 };
 
 
