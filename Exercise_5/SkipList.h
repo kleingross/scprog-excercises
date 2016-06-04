@@ -134,11 +134,13 @@ SkipList<Key, T, Compare>::SkipList(const SkipList & list)
 {
 	for (int i = 0; i < max_level_height; ++i)
 	{
-		head[i] = list.head[i];
+		head[i] = nullptr;
 	}
 	
-	length = list.length;
-	current_highest_level = list.current_highest_level; //indicates the highest level any element in SkipList has
+	for (const_iterator it = list.begin(); it != list.end(); ++it)
+	{
+		this->insert(*it);
+	}
 }
 
 template<typename Key, typename T, typename Compare>
@@ -225,7 +227,7 @@ typename SkipList<Key, T, Compare>::value_type * SkipList<Key, T, Compare>::find
 	for (int level = current_highest_level; level >= 0; --level)
 	{
 		//while previous ptr not nullptr //current ptr not nullptr  //find_key <= current key
-		while (previous_ptr[level] && !Compare()(key, previous_ptr[level]->content.first))
+		while (previous_ptr && previous_ptr[level] && !Compare()(key, previous_ptr[level]->content.first))
 		{
 			//if object is reached return pointer to content
 			if (!Compare()(previous_ptr[level]->content.first, key) && !Compare()(key, previous_ptr[level]->content.first))
@@ -265,12 +267,11 @@ std::pair<typename SkipList<Key, T, Compare>::value_type*, bool> SkipList<Key, T
 		//if insert level greater_current highest_level: modify head and current_highest_level
 		if (insert_level > current_highest_level) current_highest_level = insert_level;
 
-		//int level = current_highest_level;
-		element** previous_ptr = head; //previous_ptr is pointer to array of next pointers (aka next[])
+		element** previous_ptr = head; 
 		
 		for (int level = current_highest_level; level >= 0; --level)
 		{
-			//while previous ptr not nullptr //current ptr not nullptr  //insert key < current key
+			//while previous ptr not nullptr //insert key < current key
 			while (previous_ptr[level] && Compare()(previous_ptr[level]->content.first, val.first))
 			{
 				previous_ptr = previous_ptr[level]->next;
