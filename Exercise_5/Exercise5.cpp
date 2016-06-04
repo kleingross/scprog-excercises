@@ -85,6 +85,7 @@ main( int argc, char** argv )
     
     for( int i = 0; i < 500; ++i )
     {
+		std::cout << i << std::endl;
         TestSkipList s4;
         {
             TestSkipList s5;

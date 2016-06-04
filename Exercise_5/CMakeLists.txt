@@ -1,9 +1,8 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
 PROJECT( Exercise5 )
-SET( CMAKE_BUILD_TYPE Debug )
+SET( CMAKE_BUILD_TYPE Release )
 ADD_EXECUTABLE( Exercise5
 	Exercise5.cpp
-	SkipList.cpp
 )
 
 IF( MINGW OR UNIX )

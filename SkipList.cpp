@@ -1,3 +1,5 @@
+/*
+
 #include "SkipList.h"
 
 
@@ -55,7 +57,7 @@ template<typename Key, typename T, typename Compare>
 std::pair<typename SkipList<Key, T, Compare>::value_type*, bool> SkipList<Key, T, Compare>::insert(const value_type & val)
 {
 	//create object to insert
-	typename SkipList<Key, T, Compare>::element insert_element;
+	SkipList<Key, T, Compare>::element insert_element;
 	insert_element.content = val;
 
 	//set up return item
@@ -255,3 +257,5 @@ bool SkipList<Key, T, Compare>::const_iterator::operator!=(const const_iterator 
 	if (iter == rhs) return false;
 	else return true;
 }
+
+*/
