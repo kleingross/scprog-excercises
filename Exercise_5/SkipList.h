@@ -85,7 +85,7 @@ private:
 	friend class SkipList;
 	friend class const_iterator;
 
-	int iter_level = max_level_height;
+	int iter_level;
 	element* iter;
 };
 
@@ -197,7 +197,7 @@ SkipList<Key, T, Compare> & SkipList<Key, T, Compare>::operator=(const SkipList 
 }
 
 template<typename Key, typename T, typename Compare>
-typename const SkipList<Key, T, Compare>::value_type* SkipList<Key, T, Compare>::find(const Key & key) const
+const typename SkipList<Key, T, Compare>::value_type* SkipList<Key, T, Compare>::find(const Key & key) const
 {
 	element** previous_ptr = head; //previous_ptr is pointer to array of next pointers (aka next[])
 
@@ -449,7 +449,7 @@ template <typename Key, typename T, typename Compare>
 typename SkipList<Key, T, Compare>::iterator SkipList<Key, T, Compare>::iterator::operator++(int)
 {
 	typename SkipList<Key, T, Compare>::iterator old_iter = iter;
-	iter = iter->next[level];
+	iter = iter->next[iter_level];
 	return old_iter;
 }
 
@@ -479,13 +479,13 @@ SkipList<Key, T, Compare>::const_iterator::const_iterator()
 }
 
 template <typename Key, typename T, typename Compare>
-typename const SkipList<Key, T, Compare>::value_type& SkipList<Key, T, Compare>::const_iterator::operator*() const
+const typename SkipList<Key, T, Compare>::value_type& SkipList<Key, T, Compare>::const_iterator::operator*() const
 {
 	return iter->content;
 }
 
 template <typename Key, typename T, typename Compare>
-typename const SkipList<Key, T, Compare>::value_type * SkipList<Key, T, Compare>::const_iterator::operator->() const
+const typename SkipList<Key, T, Compare>::value_type * SkipList<Key, T, Compare>::const_iterator::operator->() const
 {
 	return &(iter->content) ;
 }
