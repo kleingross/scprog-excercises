@@ -136,7 +136,10 @@ SkipList<Key, T, Compare>::SkipList(const SkipList & list)
 	{
 		head[i] = nullptr;
 	}
+	length = 0;
+	current_highest_level = 0;
 	
+	//inserts all elements which are in list. level height of elements can be different. 
 	for (const_iterator it = list.begin(); it != list.end(); ++it)
 	{
 		this->insert(*it);
@@ -296,12 +299,15 @@ size_t SkipList<Key, T, Compare>::erase(const Key & key)
 	
 	if (this->find(key))		//if val already in list
 	{
-		//int level = current_highest_level;
-		element** previous_ptr = head; //previous_ptr is pointer to array of next pointers (aka next[])
+		//previous_ptr is pointer to array of next pointers 
+		//previous_ptr[level] points to current element in level
+		element** previous_ptr = head; 
 
+		//decend through all levels
 		for (int level = current_highest_level; level >= 0; --level)
 		{
-			//while previous ptr not nullptr  //delete_key  >= previous key
+			//while previous_ptr and element it is pointing to (= current element) are not nullptr
+			//while delete_key  >= current key
 			while (previous_ptr[level] && !Compare()(key, previous_ptr[level]->content.first))
 			{
 				//if object is reached
@@ -314,7 +320,10 @@ size_t SkipList<Key, T, Compare>::erase(const Key & key)
 						previous_ptr[level] = previous_ptr[level]->next[level];
 						delete ptr_to_delete_element;
 					}
-					else previous_ptr[level] = previous_ptr[level]->next[level];
+					else
+					{
+						previous_ptr[level] = previous_ptr[level]->next[level];
+					}
 				}
 				else 
 				{
@@ -332,64 +341,6 @@ size_t SkipList<Key, T, Compare>::erase(const Key & key)
 		//change result to success return
 		this->length = this->length - 1;
 	}
-
-	/*
-	//if key in SkipList
-	if (this->find(key))
-	{
-		iterator old_it = this->begin();
-		iterator it = this->begin();
-		int level = current_highest_level;
-
-		while (level >= 0)
-		{
-			if (Compare()(it->first, key))
-			{
-				// iterate
-				old_it = it;
-				++it;
-			}
-			else if (Compare()(key, it->first))
-			{
-				//go down one level
-				level = level - 1;
-				it.iter_level = level;
-				it.iter = old_it.iter->next[level];
-			}
-			else if (!Compare()(key, it->first) && !Compare()(it->first, key))
-			{
-				//exclude from list on level
-				old_it.iter->next[level] = it.iter->next[level];
-				if (level == 0) //delete element when erased from level 0
-				{
-					delete it.iter;
-				}
-				//go down one level
-				level = level - 1;
-				it.iter_level = level;
-				it.iter = old_it.iter->next[level];
-			}
-		}
-
-	//now level = 0
-		for (iterator it = this->begin(level); it != this->end(); ++it)
-		{
-			if (Compare()(key, it.iter->content.first))
-			{
-				old_it = it;
-			}
-			else
-			{
-				old_it.iter->next[0] = it.iter->next[0];
-				this->length = this->length - 1;
-				return this->length;
-			}
-		}
-	}
-	while (current_highest_level > 0) //reduce current highest level 
-	{
-		if (this->begin() == this->end()) current_highest_level = current_highest_level - 1;
-	}*/
 
 	return this->length;
 }

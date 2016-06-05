@@ -1,0 +1,35 @@
+The system is: Windows - 10.0.10586 - AMD64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/bin/cl.exe 
+Build flags: 
+Id flags: -c
+
+The output was:
+0
+Microsoft (R) C/C++-Optimierungscompiler Version 19.00.23918 fÅr x86
+Copyright (C) Microsoft Corporation. Alle Rechte vorbehalten.
+
+CMakeCCompilerId.c
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.obj"
+
+The C compiler identification is MSVC, found in "C:/Users/Bene/Sync/Dropbox/Dokumente/Studium/Scientific Programming/scprog-exercises/Exercise_4/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.obj"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/bin/cl.exe 
+Build flags: 
+Id flags: -c
+
+The output was:
+0
+Microsoft (R) C/C++-Optimierungscompiler Version 19.00.23918 fÅr x86
+Copyright (C) Microsoft Corporation. Alle Rechte vorbehalten.
+
+CMakeCXXCompilerId.cpp
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.obj"
+
+The CXX compiler identification is MSVC, found in "C:/Users/Bene/Sync/Dropbox/Dokumente/Studium/Scientific Programming/scprog-exercises/Exercise_4/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.obj"
+
