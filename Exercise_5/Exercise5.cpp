@@ -100,8 +100,6 @@ main( int argc, char** argv )
         }
         assert( s4.find(TestKey(1)) == 0 );
         assert( s4.find(TestKey(2)) == 0 );
-        assert( s4.find(TestKey(3))->first.value == 3 );
-        assert( s4.find(TestKey(3))->second.value == 30 );
     }
     
     return 0;

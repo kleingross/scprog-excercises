@@ -44,7 +44,7 @@ private:
 	//define levels
 	static const int max_level_height = 10;
 	int current_highest_level;
-	int get_level_height();
+	int get_level_height(); //returns 0...9
 
 
 	//content
@@ -149,6 +149,8 @@ SkipList<Key, T, Compare>::SkipList(const SkipList & list)
 template<typename Key, typename T, typename Compare>
 SkipList<Key, T, Compare>::~SkipList()
 {
+
+	/*
 	element* current_ptr = head[0];
 	while (current_ptr != nullptr)
 	{
@@ -156,7 +158,25 @@ SkipList<Key, T, Compare>::~SkipList()
 		delete current_ptr;
 		current_ptr = next_ptr;
 	}
+	*/
 
+	iterator old_it = this->begin(0);
+	iterator it = this->begin(0);
+
+	//if list not already empty
+	if (it != this->end())
+	{
+		++it;
+		//erase all elements but last
+		while(it != this->end())
+		{
+			this->erase(old_it->first);
+			old_it = it;
+			++it;
+		}
+		//erase last element
+		this->erase(old_it->first);
+	}
 }
 
 template<typename Key, typename T, typename Compare>
@@ -168,10 +188,10 @@ SkipList<Key, T, Compare> & SkipList<Key, T, Compare>::operator=(const SkipList 
 	{
 		new_list.insert(*it);
 	}
-	
+
 	//empty *this
 	//delete all objects in *this
-	element* delete_element = head[0];
+	element* delete_element = this->head[0];
 	element* next_element = delete_element;
 	while (delete_element)
 	{
@@ -270,18 +290,22 @@ std::pair<typename SkipList<Key, T, Compare>::value_type*, bool> SkipList<Key, T
 		//if insert level greater_current highest_level: modify head and current_highest_level
 		if (insert_level > current_highest_level) current_highest_level = insert_level;
 
-		element** previous_ptr = head; 
+		element** previous_ptr = head;
 		
 		for (int level = current_highest_level; level >= 0; --level)
 		{
 			//while previous ptr not nullptr //insert key < current key
-			while (previous_ptr[level] && Compare()(previous_ptr[level]->content.first, val.first))
+			while ( previous_ptr[level] && Compare()(previous_ptr[level]->content.first, val.first))
 			{
 				previous_ptr = previous_ptr[level]->next;
 			}
 			//change pointers in previous to insert and in insert to current
-			(insert_element_ptr->next)[level] = previous_ptr[level];
-			previous_ptr[level] = insert_element_ptr;			
+//<=?
+			if (level <= insert_level)
+			{
+				insert_element_ptr->next[level] = previous_ptr[level];
+				previous_ptr[level] = insert_element_ptr;
+			}
 		}
 
 		//change result to success return
@@ -403,7 +427,7 @@ int SkipList<Key, T, Compare>::get_level_height()
 	int level_height = 0;
 	int random_number = 0;
 
-	while (level_height < max_level_height)
+	while (level_height < max_level_height - 1)
 	{
 		random_number = std::rand() % 2; //can be 1 or 0, 50:50 chance
 		if (random_number == 0)
